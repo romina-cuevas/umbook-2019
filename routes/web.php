@@ -20,3 +20,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/','InicioController@principal');
+
+	
+Route::get('/search', 'UsersController@search')->name('users.search');
+
+
+
+
+
+
+
