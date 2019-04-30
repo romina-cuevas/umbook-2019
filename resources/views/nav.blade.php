@@ -8,17 +8,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="navbar-nav mr-auto">
-
-        <li class="nav-item"><a class="nav-link" href="">Usuarios<span class="sr-only">(current)</span></a></li>
-        </li>      
-
         
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        @guest
-                            <li><a href="{{ route('login') }}">Iniciar Sesión</a></li> 
-                            <li><a href="{{ route('register') }}">Registrarme</a></li>
+                        @guest
+                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar Sesion</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
                         @else
 
                             <li class="nav-item dropdown">
