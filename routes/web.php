@@ -20,3 +20,18 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/','InicioController@principal');
+Route::get('/','InicioController@welcome')->name('welcome');
+
+Route::group(['prefix'=>'member','middleware'=>['auth']], function(){
+	Route::get('/','InicioController@principal')->name('member.home');
+	Route::get('/search', 'UsersController@search')->name('users.search');
+});
+
+	
+
+
+
+
+
+
+
