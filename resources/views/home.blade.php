@@ -3,41 +3,22 @@
 @section('title','Home')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <div class="text-center">
         <h4>¡Busca tus amigos!</h4>
-        <form action="/member/search" method="POST" role="search">
-          {{ csrf_field() }}
-          <div class="input-group">
-            <input type="text" class="form-control" name="name_search" placeholder="Ingresa nombre o apellido"> <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
+        <div class="input-group mb-3">          
+          <input id="round" type="text" class="form-control" placeholder="Mis Amigos!" aria-label="Username" aria-describedby="basic-addon1">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
           </div>
-        </form>
+        </div>
     </div>
-    @if(isset($users))
-      <table class="table">
-        <thead>
-          <th scope="col">Name</th>
-        </thead>
-        <tbody>
-          @foreach ($users as $user)
-            <tr>
-              <th scope="row">{{ $user->name }}</th>
-              <td><a class="btn btn-primary" href="{{route('add.friend').'?friend='.$user->id}}" role="button">Agregar</a></td>
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
-    @endif
+
 </div>
 @endsection
 
 @section('js')
 <script>
-  /*
     $("#round").easyAutocomplete({
        url: function(search) {
            return "{{route('users.search')}}?search=" + search;
@@ -63,7 +44,6 @@
 
         theme: "round"
     });
-    */
 </script>
 
 @endsection

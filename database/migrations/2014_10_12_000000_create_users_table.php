@@ -23,23 +23,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-
-
-        Schema::create('friends', function(Blueprint $table) {
-            $table->increments('id');
-            $table->boolean('accepted')->default(0);
-            $table->unsignedBigInteger('friend_id')->index();
-            $table->unsignedBigInteger('user_id')->index();
-        });
-
-        Schema::disableForeignKeyConstraints();
-
-        Schema::table('friends', function(Blueprint $table) {
-            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -50,6 +33,5 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('friends');
     }
 }
