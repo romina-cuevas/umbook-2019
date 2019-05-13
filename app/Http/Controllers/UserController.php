@@ -3,26 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use App\User;
+use Exception;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function search()
     {
-        $users = User::Search($request->name)->orderBy('id','ASC')->paginate(10);
-        dd($users);
-        return view('home')->with('users', $users);
+        $search = Input::get('name_search');
+
+        if (empty($search)) {
+            throw new Exception("Nombre o apellido no proporcionado");
+        }
+
+        $users = User::query()
+            ->where('name', 'LIKE', '%'.$search.'%')
+            ->orWhere('email', 'LIKE', '%'.$search.'%')
+            ->where('id', '!=', Auth::id())
+            ->get();
+
+        if (count($users)) {
+            return view('home')->with('users', $users)->withQuery($search);
+        } else {
+            return view('home')->withMessage('Sin coincidencias. Intenta nuevamente');
+        }
     }
 
-    public function search(Request $request)
+    public function addFriend(Request $request)
     {
-        $users = User::where('name', 'LIKE', '%'.$request->search.'%')->get();
-        return \response()->json($users);
+        $actual_user = Auth::user();
+        $friend = User::findOrFail($request->get('friend'));
+
+        $actual_user->friends()->attach($friend);
+
+        return redirect()->route('friends.index');
+    }
+
+    public function indexFriends()
+    {
+        $actual_user = Auth::user();
+
+        return view('friends')->with('friends', $actual_user->friends);
     }
 
     /**

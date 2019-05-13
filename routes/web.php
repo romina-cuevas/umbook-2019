@@ -24,7 +24,9 @@ Route::get('/','InicioController@welcome')->name('welcome');
 
 Route::group(['prefix'=>'member','middleware'=>['auth']], function(){
 	Route::get('/','InicioController@principal')->name('member.home');
-	Route::get('/search', 'UsersController@search')->name('users.search');
+	Route::any('/search', 'UsersController@search')->name('users.search');
+	Route::get('/addfriend', 'UsersController@addFriend')->name('add.friend');
+	Route::get('/friends', 'UsersController@indexFriends')->name('friends.index');
 });
 
 	

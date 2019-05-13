@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+    	Schema::disableForeignKeyConstraints();
+        $this->call(UsersTableSeeder::class);
+    	Schema::enableForeignKeyConstraints();
     }
 }
