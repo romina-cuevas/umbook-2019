@@ -56,7 +56,7 @@ class UserController extends Controller
         $friends = DB::table('friends')
             ->where('user_id', '=', $actual_user->id)
             ->join('users', 'friends.friend_id', '=', 'users.id')
-            ->select('friends.*', 'users.first_name')
+            ->select('friends.*', 'users.*')
             ->get();
 
         return view('friends')->with('friends', $friends);
