@@ -14,7 +14,11 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
             @else
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</span></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span>
+                        {{ Illuminate\Support\Facades\Auth::user()->first_name . ' ' . Illuminate\Support\Facades\Auth::user()->last_name }}
+                        </span>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         @if(Illuminate\Support\Facades\Auth::user()->type == "admin")
                             <a class="dropdown-item" href="{{route('admin.inicio')}}">Mi Perfil</a>
