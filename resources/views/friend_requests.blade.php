@@ -13,7 +13,7 @@
                 <tbody>
                 @foreach ($friend_requests as $request)
                     <tr>
-                        <th scope="row"><h5>{{ $request->first_name }}</h5> <br>
+                        <th scope="row"><h5>{{ $request->first_name . " " . $request->last_name}}</h5> <br>
                             ¿Quieres aceptar la solicitud de amistad?
                         </th>
                         <td><a class="btn btn-success" href="{{route('confirm.friend').'?user_id='.$request->user_id}}" role="button">Aceptar solicitud</a></td>
