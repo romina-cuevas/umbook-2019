@@ -40,6 +40,7 @@ class AddTableGroups extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('grp');
+        Schema::dropIfExists('friend_group');
     }
 }
