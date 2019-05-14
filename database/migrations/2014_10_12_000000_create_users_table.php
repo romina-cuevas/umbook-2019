@@ -15,7 +15,12 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('birthday');
+            $table->string('career');
+            $table->string('slug');
+            $table->string('avatar')->default('user.png');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -30,6 +35,7 @@ class CreateUsersTable extends Migration
             $table->boolean('accepted')->default(0);
             $table->unsignedBigInteger('friend_id')->index();
             $table->unsignedBigInteger('user_id')->index();
+            $table->unique(['friend_id', 'user_id']);
         });
 
         Schema::disableForeignKeyConstraints();
@@ -49,7 +55,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('friends');
+
+        Schema::enableForeignKeyConstraints();
     }
 }

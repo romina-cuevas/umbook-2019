@@ -5,6 +5,9 @@
 @section('content')
 <div class="container-fluid">
     <div class="text-center">
+        @if (isset($message))
+            <div class="alert alert-warning"> {{ $message }} </div>
+        @endif
         <h4>¡Busca tus amigos!</h4>
         <form action="/member/search" method="POST" role="search">
           {{ csrf_field() }}
@@ -94,5 +97,4 @@
     });
     */
 </script>
-
 @endsection
