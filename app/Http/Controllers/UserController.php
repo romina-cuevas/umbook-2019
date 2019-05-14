@@ -43,7 +43,8 @@ class UserController extends Controller
         try {
             $actual_user->friends()->attach($friend);
         } catch (QueryException $exception) {
-            return view('home')->with('message', 'Ya eres amigo de: ' . $friend->name);
+            return view('home')->with('message', 'Se ha enviado una solicitud a: '
+                . $friend->first_name . ' ' . $friend->last_name);
         }
 
         return redirect()->route('friends.index');
