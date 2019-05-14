@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
 
 
         Schema::create('friends', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->boolean('accepted')->default(0);
             $table->unsignedBigInteger('friend_id')->index();
             $table->unsignedBigInteger('user_id')->index();

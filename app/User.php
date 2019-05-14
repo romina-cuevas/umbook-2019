@@ -37,12 +37,6 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
-
-    
-    
-    
-    
-    
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -81,9 +75,13 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function registerMediaConversions(Media $media = null)
-        {
-            $this->addMediaConversion('thumb')
-                ->width(60)
-                ->height(60);
-        }
+    {
+        $this->addMediaConversion('thumb')
+            ->width(60)
+            ->height(60);
+    }
+
+    public function groups(){
+        return $this->hasMany('App\Group');
+    }
 }

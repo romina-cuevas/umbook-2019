@@ -24,11 +24,19 @@ Route::get('/','InicioController@welcome')->name('welcome');
 
 Route::group(['prefix'=>'member','middleware'=>['auth']], function(){
 	Route::get('/','InicioController@principal')->name('member.home');
-	Route::any('/search', 'UserController@search')->name('users.search');
-	Route::get('/addfriend', 'UserController@addFriend')->name('add.friend');
-	Route::get('/friend_requests', 'UserController@indexFriendRequests')->name('friends.requests');
-	Route::get('/friends', 'UserController@indexFriends')->name('friends.index');
-	Route::get('/confirm_request', 'UserController@confirmFriend')->name('confirm.friend');
+	Route::any('/search', 'UsersController@search')->name('users.search');
+	Route::get('/addfriend', 'UsersController@addFriend')->name('add.friend');
+	Route::get('/friends', 'UsersController@indexFriends')->name('friends.index');
+    Route::any('/search', 'UserController@search')->name('users.search');
+    Route::get('/addfriend', 'UserController@addFriend')->name('add.friend');
+    Route::get('/friend_requests', 'UserController@indexFriendRequests')->name('friends.requests');
+    Route::get('/friends', 'UserController@indexFriends')->name('friends.index');
+    Route::get('/confirm_request', 'UserController@confirmFriend')->name('confirm.friend');
+	Route::resource('groups','GroupsController');
+	Route::get('group/{id}/destroy',[
+		'uses'=>'GroupsController@destroy',
+		'as'=>'group.destroy'
+	]);
 });
 
 	

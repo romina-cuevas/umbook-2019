@@ -14,8 +14,9 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 	</head>
 	<body>
-		@include('nav') <br>
-		<div class="container">
+		@include('nav')
+		@include('flash::message')
+		<div class="container mt-3">
 			<section>
 				@yield('content')				
 			</section>			
