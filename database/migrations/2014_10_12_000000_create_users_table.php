@@ -35,6 +35,7 @@ class CreateUsersTable extends Migration
             $table->boolean('accepted')->default(0);
             $table->unsignedBigInteger('friend_id')->index();
             $table->unsignedBigInteger('user_id')->index();
+            $table->unique(['friend_id', 'user_id']);
         });
 
         Schema::disableForeignKeyConstraints();
@@ -54,7 +55,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('friends');
+
+        Schema::enableForeignKeyConstraints();
     }
 }
