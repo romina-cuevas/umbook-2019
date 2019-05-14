@@ -21,7 +21,8 @@ class UserController extends Controller
         }
 
         $users = User::query()
-            ->where('name', 'LIKE', '%'.$search.'%')
+            ->where('first_name', 'LIKE', '%'.$search.'%')
+            ->orWhere('last_name', 'LIKE', '%'.$search.'%')
             ->orWhere('email', 'LIKE', '%'.$search.'%')
             ->where('id', '!=', Auth::id())
             ->get();

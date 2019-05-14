@@ -10,30 +10,29 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             @guest
-            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar Sesion</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar Sesion</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
             @else
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</span></a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    @if(Auth::user()->type == "admin")
-                    <a class="dropdown-item" href="{{route('admin.inicio')}}">Mi Perfil</a>
-                    @else
-                    <a class="dropdown-item" href="">Mi Perfil</a>
-                    <a class="dropdown-item" href="{{route('friends.requests')}}">Solicitudes pendientes</a>
-                    @endif
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</span></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        @if(Illuminate\Support\Facades\Auth::user()->type == "admin")
+                            <a class="dropdown-item" href="{{route('admin.inicio')}}">Mi Perfil</a>
+                        @else
+                            <a class="dropdown-item" href="">Mi Perfil</a>
+                            <a class="dropdown-item" href="{{route('friends.requests')}}">Solicitudes pendientes</a>
+                        @endif
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
-                        Cerrar Sesion
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            </li>
+                            Cerrar Sesion
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
+                </li>
             @endguest
         </ul>
-    </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+    </div>
 </nav>

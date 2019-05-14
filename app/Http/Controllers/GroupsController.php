@@ -109,7 +109,7 @@ class GroupsController extends Controller
     {
         //
         $group = Group::find($id);
-        flash('Se a eliminado el grupo ' . $group->name)->error();
+        flash('Se ha eliminado el grupo ' . $group->name)->error();
         $group->delete();
         return redirect()->route('home');
     }
