@@ -56,7 +56,7 @@ class UserController extends Controller
         $friends = DB::table('friends')
             ->where('user_id', '=', $actual_user->id)
             ->join('users', 'friends.friend_id', '=', 'users.id')
-            ->select('friends.*', 'users.name')
+            ->select('friends.*', 'users.first_name')
             ->get();
 
         return view('friends')->with('friends', $friends);
@@ -70,7 +70,7 @@ class UserController extends Controller
             ->where('friend_id', '=', $actual_user->id)
             ->where('accepted', '=',0)
             ->join('users', 'friends.user_id', '=', 'users.id')
-            ->select('friends.*', 'users.name')
+            ->select('friends.*', 'users.first_name')
             ->get();
 
         return view('friend_requests')->with('friend_requests', $friend_requests);
