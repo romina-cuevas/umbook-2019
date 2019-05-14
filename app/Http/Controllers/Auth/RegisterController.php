@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Image; 
 class RegisterController extends Controller
 {
     /*
@@ -49,12 +49,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'birthday' => ['required', 'string', 'max:10'],
+            'career' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -63,10 +65,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        //dd($data);
+        $user = new User();
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->birthday = $data['birthday'];
+        $user->career = $data['career'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+         $user->save();
+        if (isset($data['avatar'])) {
+            $file = $data['avatar'];
+            //dd($file);
+            $thumbnail_path = public_path('users/avatar/thumbnail/');
+            $original_path = public_path('users/avatar/original/');
+            $file_name = 'user_'. $user->id .'.'. $file->getClientOriginalExtension();
+            //dd($file_name);
+            Image::make($file)
+                      ->resize(261,null,function ($constraint) {
+                        $constraint->aspectRatio();
+                         })
+                      ->save($original_path . $file_name)
+                      ->resize(90, 90)
+                      ->save($thumbnail_path . $file_name);
+
+            $user->avatar = $file_name;
+            $user->save();
+        }
+       
+        //dd($user,$user->avatar);
+        return $user;
     }
 }
