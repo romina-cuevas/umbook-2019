@@ -49,6 +49,6 @@ class User extends Authenticatable
     }
 
     public function groups(){
-        return $this->belongsTo('App\Group');
+        return $this->hasMany('App\Group');
     }
 }

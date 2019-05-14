@@ -12,7 +12,7 @@ class Group extends Model
     protected $fillable = ['name','user_id'];
 
     public function user(){
-    	return $this->hasMany('App\User');
+    	return $this->belongsTo('App\User');
     }
 
     public function friends(){
