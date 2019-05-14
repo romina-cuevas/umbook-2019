@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use Exception;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function search()
     {
@@ -33,84 +35,63 @@ class UsersController extends Controller
 
     public function addFriend(Request $request)
     {
+        /** @var User $actual_user */
         $actual_user = Auth::user();
         $friend = User::findOrFail($request->get('friend'));
 
-        $actual_user->friends()->attach($friend);
+        try {
+            $actual_user->friends()->attach($friend);
+        } catch (QueryException $exception) {
+            return view('home')->with('message', 'Ya eres amigo de: ' . $friend->name);
+        }
 
         return redirect()->route('friends.index');
     }
 
     public function indexFriends()
     {
+        /** @var User $actual_user */
         $actual_user = Auth::user();
+        $friends = DB::table('friends')
+            ->where('user_id', '=', $actual_user->id)
+            ->join('users', 'friends.friend_id', '=', 'users.id')
+            ->select('friends.*', 'users.name')
+            ->get();
 
-        return view('friends')->with('friends', $actual_user->friends);
+        return view('friends')->with('friends', $friends);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function indexFriendRequests()
     {
-        //
+        /** @var User $actual_user */
+        $actual_user = Auth::user();
+        $friend_requests = DB::table('friends')
+            ->where('friend_id', '=', $actual_user->id)
+            ->where('accepted', '=',0)
+            ->join('users', 'friends.user_id', '=', 'users.id')
+            ->select('friends.*', 'users.name')
+            ->get();
+
+        return view('friend_requests')->with('friend_requests', $friend_requests);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function confirmFriend(Request $request)
     {
-        //
-    }
+        /** @var User $actual_user */
+        $actual_user = Auth::user();
+        $friend_id = $request->get('user_id');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        DB::table('friends')
+            ->where('user_id', $friend_id)
+            ->where('friend_id', $actual_user->id)
+            ->update(['accepted' => 1]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        DB::table('friends')->insert([
+            'user_id' => $actual_user->id,
+            'friend_id' => $friend_id,
+            'accepted' => 1,
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return self::indexFriends();
     }
 }

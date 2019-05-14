@@ -1,23 +1,27 @@
 @extends('main')
 
-@section('title','Home')
+@section('title','Amigos')
 
 @section('content')
 <div class="container-fluid">
+    <h2>Amigos:</h2>
     @if(isset($friends))
-      <table class="table">
+    <table class="table">
         <thead>
-          <th scope="col">Name</th>
+        <th scope="col">Nombre</th>
         </thead>
         <tbody>
-          @foreach ($friends as $friend)
-            <tr>
-              <th scope="row">{{ $friend->name }}</th>
-              <td><a class="btn btn-danger" href="route('delete.friend').'?friend='.$user->id" role="button">Eliminar</a></td>
-            </tr>
-          @endforeach
+        @foreach ($friends as $friend)
+        <tr>
+            <th scope="row"><h5>{{ $friend->name }}</h5> <br>
+                @if(!$friend->accepted)
+                Solicitud pendiente
+                @endif
+            </th>
+        </tr>
+        @endforeach
         </tbody>
-      </table>
+    </table>
     @endif
 </div>
 @endsection

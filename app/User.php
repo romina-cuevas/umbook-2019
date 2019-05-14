@@ -38,13 +38,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeSearch($query, $name){
+    public function scopeSearch($query, $name)
+    {
         return $query->where('name','LIKE','%$name%');
     }
 
     public function friends()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-            ->wherePivot('accepted', '=', 0);
+            ->wherePivot('accepted', '=', 1)
+            ->withPivot('accepted');
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->wherePivot('accepted', '=', 1)
+            ->withPivot('accepted');
     }
 }
