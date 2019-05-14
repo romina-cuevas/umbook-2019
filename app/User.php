@@ -6,20 +6,43 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable;
+    use HasMediaTrait;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
+    use Sluggable,SluggableScopeHelpers;
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'birthday','career', 'password', 'slug','avatar','email'
     ];
 
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'first_name'
+            ]
+        ];
+    }
+
+
+    
+    
+    
+    
+    
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -47,4 +70,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
             ->wherePivot('accepted', '=', 0);
     }
+
+    public function registerMediaConversions(Media $media = null)
+        {
+            $this->addMediaConversion('thumb')
+                ->width(60)
+                ->height(60);
+        }
 }

@@ -18,7 +18,9 @@
                         @else
 
                             <li class="nav-item dropdown">
-                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</span></a>          
+                              
+                                                              
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</span><img src="users/avatar/thumbnail/{{ Auth::user()->avatar}}" width="30"  class="rounded-circle"> &ensp; {{ Auth::user()->first_name}}</a>          
                               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->type == "admin")
                                     <a class="dropdown-item" href="{{route('admin.inicio')}}">Mi Perfil</a>
