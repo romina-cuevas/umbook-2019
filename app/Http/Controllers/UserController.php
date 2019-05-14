@@ -95,4 +95,6 @@ class UserController extends Controller
 
         return self::indexFriends();
     }
+
+
 }

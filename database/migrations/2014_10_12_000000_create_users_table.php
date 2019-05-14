@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
         });
 
 
-        Schema::create('friends', function(Blueprint $table) {
+        Schema::create('friendships', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('accepted')->default(0);
             $table->unsignedBigInteger('friend_id')->index();
@@ -40,7 +40,7 @@ class CreateUsersTable extends Migration
 
         Schema::disableForeignKeyConstraints();
 
-        Schema::table('friends', function(Blueprint $table) {
+        Schema::table('friendships', function(Blueprint $table) {
             $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -58,7 +58,7 @@ class CreateUsersTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::dropIfExists('users');
-        Schema::dropIfExists('friends');
+        Schema::dropIfExists('friendships');
 
         Schema::enableForeignKeyConstraints();
     }

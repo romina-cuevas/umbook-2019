@@ -30,7 +30,7 @@ class GroupsController extends Controller
     public function create()
     {
         //
-        $friends = Auth::user()->friends->pluck('name','id');
+        $friends = Auth::user()->friends->pluck('first_name','last_name','id');
         //dd($friends);
         return view('groups.create')->with('friends', $friends);
     }
@@ -50,7 +50,7 @@ class GroupsController extends Controller
         $group->friends()->sync($request->friends);
         //dd($group,$group->friends);
         flash('Se creado el grupo ' . $group->name)->success();
-        return redirect()->route('home');
+        return redirect()->route('user.profile');
 
     }
 
@@ -75,7 +75,7 @@ class GroupsController extends Controller
     {
         //
         $group = Group::find($id);
-        $friends = Auth::user()->friends->pluck('name','id');
+        $friends = Auth::user()->friends->pluck('first_name','id');
         $group_friends=$group->friends->pluck('id')->ToArray();
         //dd($group_friends);
         return view('groups.edit')->with('group',$group)->with('friends',$friends)->with('group_friends',$group_friends);

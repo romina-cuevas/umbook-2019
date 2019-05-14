@@ -21,12 +21,12 @@ class AddTableGroups extends Migration
             $table->timestamps();
         });
 
-        Schema::create('friend_group', function(Blueprint $table) {
+        Schema::create('friendship_groups', function(Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('friend_id');
+            $table->unsignedBigInteger('friendship_id');
             $table->unsignedBigInteger('group_id');
 
-            $table->foreign('friend_id')->references('id')->on('friends');
+            $table->foreign('friendship_id')->references('id')->on('friends');
             $table->foreign('group_id')->references('id')->on('grp')->onDelete('cascade');
             $table->timestamps();
 
@@ -41,6 +41,6 @@ class AddTableGroups extends Migration
     public function down()
     {
         Schema::dropIfExists('grp');
-        Schema::dropIfExists('friend_group');
+        Schema::dropIfExists('friendship_groups');
     }
 }
