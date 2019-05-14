@@ -74,22 +74,25 @@ class RegisterController extends Controller
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
          $user->save();
-        $file = $data['avatar'];
-        //dd($file);
-        $thumbnail_path = public_path('users/avatar/thumbnail/');
-        $original_path = public_path('users/avatar/original/');
-        $file_name = 'user_'. $user->id .'.'. $file->getClientOriginalExtension();
-        //dd($file_name);
-        Image::make($file)
-                  ->resize(261,null,function ($constraint) {
-                    $constraint->aspectRatio();
-                     })
-                  ->save($original_path . $file_name)
-                  ->resize(90, 90)
-                  ->save($thumbnail_path . $file_name);
+        if (isset($data['avatar'])) {
+            $file = $data['avatar'];
+            //dd($file);
+            $thumbnail_path = public_path('users/avatar/thumbnail/');
+            $original_path = public_path('users/avatar/original/');
+            $file_name = 'user_'. $user->id .'.'. $file->getClientOriginalExtension();
+            //dd($file_name);
+            Image::make($file)
+                      ->resize(261,null,function ($constraint) {
+                        $constraint->aspectRatio();
+                         })
+                      ->save($original_path . $file_name)
+                      ->resize(90, 90)
+                      ->save($thumbnail_path . $file_name);
 
-        $user->avatar = $file_name;
-        $user->save();
+            $user->avatar = $file_name;
+            $user->save();
+        }
+       
         //dd($user,$user->avatar);
         return $user;
     }
