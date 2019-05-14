@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Group;
 use Exception;
+use Laracasts\Flash\Flash;
 
 class GroupsController extends Controller
 {
@@ -73,6 +74,11 @@ class GroupsController extends Controller
     public function edit($id)
     {
         //
+        $group = Group::find($id);
+        $friends = Auth::user()->friends->pluck('name','id');
+        $group_friends=$group->friends->pluck('id')->ToArray();
+        //dd($group_friends);
+        return view('groups.edit')->with('group',$group)->with('friends',$friends)->with('group_friends',$group_friends);
     }
 
     /**
@@ -85,6 +91,12 @@ class GroupsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $group = Group::find($id);
+        $group->fill($request->all());
+        $group->save();
+        $group->friends()->sync($request->friends);
+        flash('Se a editado el grupo ' . $group->name)->success();
+        return redirect()->route('home');
     }
 
     /**
@@ -96,5 +108,9 @@ class GroupsController extends Controller
     public function destroy($id)
     {
         //
+        $group = Group::find($id);
+        flash('Se a eliminado el grupo ' . $group->name)->error();
+        $group->delete();
+        return redirect()->route('home');
     }
 }
