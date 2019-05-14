@@ -48,7 +48,7 @@ class User extends Authenticatable
             ->wherePivot('accepted', '=', 0);
     }
 
-    public function category(){
-        return $this->belongsTo('App\Category');
+    public function groups(){
+        return $this->belongsTo('App\Group');
     }
 }
