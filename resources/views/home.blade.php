@@ -33,6 +33,12 @@
       </table>
     @endif
 </div>
+<div class="mt-5">
+  <a href="{{route('groups.create')}}" class="btn btn-info">Crear Grupo de Amigos</a>
+  <div class="row">
+    {{Auth::user()->groups}}
+  </div>
+</div>
 @endsection
 
 @section('js')

@@ -47,4 +47,8 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
             ->wherePivot('accepted', '=', 0);
     }
+
+    public function category(){
+        return $this->belongsTo('App\Category');
+    }
 }
