@@ -32,9 +32,9 @@ Route::group(['prefix'=>'member','middleware'=>['auth']], function(){
     Route::get('/friend_requests', 'UserController@indexFriendRequests')->name('friends.requests');
     Route::get('/friends', 'UserController@indexFriends')->name('friends.index');
     Route::get('/confirm_request', 'UserController@confirmFriend')->name('confirm.friend');
-	Route::resource('groups','GroupsController');
+	Route::resource('groups','CirclesController');
 	Route::get('group/{id}/destroy',[
-		'uses'=>'GroupsController@destroy',
+		'uses'=>'CirclesController@destroy',
 		'as'=>'group.destroy'
 	]);
 });

@@ -53,6 +53,11 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function scopeSearch($query, $name)
     {
         return $query->where('name','LIKE','%$name%');
@@ -79,7 +84,7 @@ class User extends Authenticatable implements HasMedia
             ->height(60);
     }
 
-    public function groups(){
-        return $this->hasMany('App\Group');
+    public function circles(){
+        return $this->hasMany('App\Circle');
     }
 }
