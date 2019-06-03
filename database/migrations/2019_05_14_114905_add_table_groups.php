@@ -13,7 +13,7 @@ class AddTableGroups extends Migration
      */
     public function up()
     {
-        Schema::create('grp', function (Blueprint $table) {
+        Schema::create('circles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('user_id');
@@ -21,13 +21,13 @@ class AddTableGroups extends Migration
             $table->timestamps();
         });
 
-        Schema::create('friend_group', function(Blueprint $table) {
+        Schema::create('circle_friend', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('friend_id');
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('circle_id');
 
             $table->foreign('friend_id')->references('id')->on('friends');
-            $table->foreign('group_id')->references('id')->on('grp')->onDelete('cascade');
+            $table->foreign('circle_id')->references('id')->on('circles')->onDelete('cascade');
             $table->timestamps();
 
         });

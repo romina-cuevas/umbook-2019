@@ -16,7 +16,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span>
-                        {{ Illuminate\Support\Facades\Auth::user()->first_name . ' ' . Illuminate\Support\Facades\Auth::user()->last_name }}
+                        {{ \Auth::user()->full_name }}
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\User;
-use App\Group;
+use App\Circle;
 use Exception;
 use Laracasts\Flash\Flash;
 
-class GroupsController extends Controller
+class CirclesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,11 +30,10 @@ class GroupsController extends Controller
     public function create()
     {
         //
-        $friends = Auth::user()->friends->pluck('name','id');
+        $friends = Auth::user()->friends->pluck('full_name','id');
         //dd($friends);
         return view('groups.create')->with('friends', $friends);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,8 +42,8 @@ class GroupsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $group = new Group($request->all());
+        //dd($request);
+        $group = new Circle($request->all());
         $group->user_id = \Auth::user()->id;
         $group->save();
         $group->friends()->sync($request->friends);
@@ -74,7 +73,7 @@ class GroupsController extends Controller
     public function edit($id)
     {
         //
-        $group = Group::find($id);
+        $group = Circle::find($id);
         $friends = Auth::user()->friends->pluck('name','id');
         $group_friends=$group->friends->pluck('id')->ToArray();
         //dd($group_friends);
@@ -91,7 +90,7 @@ class GroupsController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $group = Group::find($id);
+        $group = Circle::find($id);
         $group->fill($request->all());
         $group->save();
         $group->friends()->sync($request->friends);
@@ -108,7 +107,7 @@ class GroupsController extends Controller
     public function destroy($id)
     {
         //
-        $group = Group::find($id);
+        $group = Circle::find($id);
         flash('Se ha eliminado el grupo ' . $group->name)->error();
         $group->delete();
         return redirect()->route('home');

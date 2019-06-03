@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Friend extends Model
 {
     //
-    public function groups(){
-    	return $this->belongsToMany('App\Group');
+    public function circles(){
+    	return $this->belongsToMany('App\Circle');
     }
 
     public function user(){
