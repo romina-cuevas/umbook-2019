@@ -26,7 +26,7 @@ class AddTableGroups extends Migration
             $table->unsignedBigInteger('friend_id');
             $table->unsignedBigInteger('circle_id');
 
-            $table->foreign('friend_id')->references('id')->on('friends');
+            $table->foreign('friend_id')->references('friend_id')->on('friends');
             $table->foreign('circle_id')->references('id')->on('circles')->onDelete('cascade');
             $table->timestamps();
 

@@ -74,9 +74,9 @@ class CirclesController extends Controller
     {
         //
         $group = Circle::find($id);
-        $friends = Auth::user()->friends->pluck('name','id');
-        $group_friends=$group->friends->pluck('id')->ToArray();
-        //dd($group_friends);
+        $friends = Auth::user()->friends->pluck('first_name','id');
+        $group_friends=$group->friends->pluck('friend_id')->ToArray();
+        //dd($group_friends,$friends);
         return view('groups.edit')->with('group',$group)->with('friends',$friends)->with('group_friends',$group_friends);
     }
 
